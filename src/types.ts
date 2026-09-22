@@ -1,0 +1,386 @@
+export type UserRole = 'farmer' | 'customer' | 'admin' | 'consumer';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password?: string;
+  passwordHash?: string;
+  role: UserRole;
+  avatar?: string;
+  farmId?: string; // set for farmers
+  verificationStatus: 'verified' | 'pending' | 'rejected';
+  registeredAt: string;
+  token?: string;
+  phone?: string;
+  // Customer details
+  address?: string;
+  city?: string;
+  zipCode?: string;
+  deliveryNotes?: string;
+  preferredPaymentMethod?: string;
+  dietaryPreferences?: string[];
+  buyerType?: 'normal' | 'bulk';
+  businessName?: string;
+  gstNumber?: string;
+  orderVolume?: string;
+  // Farmer details
+  farmName?: string;
+  farmLocation?: string;
+  certificationNumber?: string;
+  primaryCrops?: string[];
+  acreage?: number;
+  payoutAccount?: string;
+  // Farmer profile additions
+  age?: number;
+  aadhaarNumber?: string;
+  gender?: 'Male' | 'Female' | 'Other';
+  location?: string;
+  // FPO Affiliation Details
+  fpoCode?: string;
+  fpoName?: string;
+  fpoNumber?: string;
+  fpoContact?: string;
+  fpoCluster?: string;
+  // Financial Integration (Bank Account Configuration)
+  bankName?: string;
+  accountHolderName?: string;
+  bankAccountNumber?: string;
+  ifscCode?: string;
+  upiId?: string;
+  accountType?: 'Savings' | 'Current';
+  directPayoutActive?: boolean;
+}
+
+export type AppRoute =
+  | '/login'
+  | '/customer-dashboard'
+  | '/farmer-dashboard'
+  | '/admin-dashboard'
+  | '/unauthorized';
+
+export interface CustomerSignUpData {
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  phoneVerified?: boolean;
+  otp?: string;
+  streetAddress: string;
+  city: string;
+  zipCode: string;
+  deliveryNotes?: string;
+  preferredPaymentMethod?: 'stripe' | 'ach' | 'apple_pay';
+  buyerType?: 'normal' | 'bulk';
+  businessName?: string;
+  gstNumber?: string;
+  orderVolume?: string;
+}
+
+export interface FarmerSignUpData {
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  phoneVerified?: boolean;
+  otp?: string;
+  farmName: string;
+  farmLocation: string;
+  bio?: string;
+  certifiedOrganic: boolean;
+  certificationNumber: string;
+  primaryCrops: string[];
+  acreage?: number;
+  payoutMethod?: 'direct_ach' | 'stripe_connect';
+  bankRoutingNumber?: string;
+  bankAccountNumber?: string;
+  fpoCode?: string;
+  fpoName?: string;
+  fpoCluster?: string;
+}
+
+export interface Farm {
+  id: string;
+  name: string;
+  locationName: string;
+  coordinates: [number, number]; // [lat, lng]
+  contactEmail: string;
+  bio: string;
+  certifiedOrganic: boolean;
+  rating: number;
+  avatar: string;
+  totalEarnings: number;
+}
+
+export interface Product {
+  id: string;
+  farmId: string;
+  farmName: string;
+  name: string;
+  category: 'Vegetables' | 'Fruits' | 'Dairy & Eggs' | 'Greens & Herbs' | 'Honey & Pantry';
+  description: string;
+  pricePerUnit: number;
+  unit: string;
+  stockQuantity: number;
+  harvestDate: string;
+  location?: string;
+  distanceMiles?: number;
+  imageUrl: string;
+  organic: boolean;
+  farmerSharePercentage: number; // e.g. 88
+  logisticsSharePercentage: number; // e.g. 7
+  platformSharePercentage: number; // e.g. 5
+  // FPO Verification Lifecycle
+  verificationStatus?: 'pending_fpo_check' | 'fpo_personnel_dispatched' | 'in_transit_to_hub' | 'verified' | 'rejected';
+  fpoInspectorName?: string;
+  fpoInspectorAssigned?: string;
+  collectionScheduledTime?: string;
+  verificationTimestamp?: string;
+  fpoVerifiedAt?: string;
+  fpoInspectionNotes?: string;
+  qualityGrade?: 'Grade A+' | 'Grade A' | 'Grade B' | 'Pending FPO Field Collection' | string;
+  fpoAdvancePaid?: boolean;
+}
+
+export interface CustomerReport {
+  id: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  category: 'Quality Issue' | 'Damaged Goods' | 'Delayed Delivery' | 'Pricing/Description' | 'FPO Inquiry' | 'General Feedback';
+  title: string;
+  description: string;
+  orderId?: string;
+  productId?: string;
+  urgency: 'Low' | 'Medium' | 'Urgent';
+  status: 'Investigating' | 'Resolved' | 'Action Taken';
+  createdAt: string;
+  resolutionNotes?: string;
+}
+
+export interface FarmerScheme {
+  id: string;
+  title: string;
+  category: 'Direct Income' | 'Equipment & Solar' | 'Crop Insurance' | 'Infrastructure' | 'Organic Certification';
+  authority: string;
+  subsidyPercentage: string;
+  benefitSummary: string;
+  eligibility: string;
+  applicationLink: string;
+  deadline: string;
+  status: 'Open' | 'Ongoing' | 'Upcoming';
+}
+
+export interface PesticideComparison {
+  id: string;
+  pestTarget: string;
+  cropApplicable: string;
+  organicSolution: {
+    name: string;
+    composition: string;
+    toxicityLevel: 'Non-Toxic / Eco-Safe' | 'Low Toxicity';
+    preHarvestInterval: string; // e.g. '0-1 Days'
+    yieldProtectionScore: number; // 1-10
+    costPerAcre: number;
+    recommended: boolean;
+  };
+  chemicalAlternative: {
+    name: string;
+    toxicityLevel: 'High (Red/Yellow Label)' | 'Moderate (Blue Label)';
+    preHarvestInterval: string; // e.g. '14-21 Days'
+    yieldProtectionScore: number;
+    costPerAcre: number;
+    soilDegradationRisk: string;
+  };
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+export interface PriceBreakdown {
+  totalAmount: number;
+  farmerAmount: number;
+  farmerPercentage: number;
+  logisticsAmount: number;
+  logisticsPercentage: number;
+  platformAmount: number;
+  platformPercentage: number;
+  conventionalRetailFarmerAmount: number; // typical supermarket where farmer receives ~15%
+}
+
+export interface OrderItemDetail {
+  productId: string;
+  productName: string;
+  farmId: string;
+  farmName: string;
+  unitPrice: number;
+  quantity: number;
+  unit: string;
+  grossTotal: number;
+  farmerPayout: number;
+  logisticsFee: number;
+  platformFee: number;
+}
+
+export type OrderStatus =
+  | 'Pending'
+  | 'Dispatched'
+  | 'Delivered'
+  | 'order_placed'
+  | 'batch_consolidated'
+  | 'farm_pickup'
+  | 'hub_sorting'
+  | 'out_for_delivery'
+  | 'delivered';
+
+export interface Order {
+  id: string;
+  createdAt: string;
+  buyerName: string;
+  buyerAddress: string;
+  buyerCoords: [number, number];
+  items: OrderItemDetail[];
+  totalAmount: number;
+  totalFarmerPayout: number;
+  status: OrderStatus;
+  assignedBatchId?: string;
+  deliveryEta: string;
+  paymentGateway?: string;
+  paymentStatus?: string;
+  shippingLabelPrinted?: boolean;
+}
+
+export interface TransactionRecord {
+  id: string;
+  orderId: string;
+  buyerName: string;
+  farmId: string;
+  farmName: string;
+  grossAmount: number;
+  farmerPayout: number; // 88%
+  logisticsCommission: number; // 7%
+  platformCommission: number; // 5%
+  paymentGateway: 'Stripe' | 'Card' | 'ApplePay';
+  paymentStatus: 'succeeded' | 'processing' | 'refunded';
+  timestamp: string;
+}
+
+export interface ShippingLabelData {
+  orderId: string;
+  trackingNumber: string;
+  batchCode: string;
+  farmName: string;
+  farmLocation: string;
+  recipientName: string;
+  recipientAddress: string;
+  packageWeight: string;
+  handlingInstructions: string;
+  coldChainTemperature: string;
+  dispatchTimestamp: string;
+  itemsSummary: string;
+}
+
+export interface FarmerPayoutRecord {
+  id: string;
+  orderId: string;
+  farmId: string;
+  productName: string;
+  quantity: number;
+  unit: string;
+  grossAmount: number;
+  farmerNetPayout: number;
+  payoutRatePercent: number; // 88%
+  timestamp: string;
+  status: 'settled' | 'processing';
+}
+
+export interface LogisticsHub {
+  id: string;
+  name: string;
+  locationName: string;
+  coordinates: [number, number];
+  capacityBoxes: number;
+}
+
+export interface PickupStop {
+  id: string;
+  farmId: string;
+  farmName: string;
+  coordinates: [number, number];
+  boxCount: number;
+  productSummary: string;
+  sequenceOrder: number;
+  pickedUp: boolean;
+}
+
+export interface DeliveryStop {
+  orderId: string;
+  buyerName: string;
+  address: string;
+  coordinates: [number, number];
+  sequenceOrder: number;
+  delivered: boolean;
+}
+
+export interface LogisticsBatch {
+  id: string;
+  batchCode: string;
+  hubId: string;
+  hubName: string;
+  pickupStops: PickupStop[];
+  deliveryStops: DeliveryStop[];
+  unoptimizedDistanceKm: number;
+  optimizedDistanceKm: number;
+  distanceSavedKm: number;
+  co2ReductionKg: number;
+  status: 'scheduled' | 'picking_up' | 'hub_consolidated' | 'delivering' | 'completed';
+  activeProgressPercent: number;
+  estimatedDurationMins: number;
+  driverName: string;
+  driverVehicle: string;
+}
+
+export type VehicleCategory =
+  | 'Mini Truck (Tata Ace)'
+  | 'Pickup Truck (Bolero)'
+  | 'Tractor Trolley'
+  | '3-Wheeler Loader (Ape)'
+  | 'Refrigerated Cold Van';
+
+export interface Transporter {
+  id: string;
+  driverName: string;
+  phone: string;
+  villageOrLocation: string;
+  distanceKm: number;
+  vehicleType: VehicleCategory;
+  vehicleNumber: string;
+  capacityKg: number;
+  ratePerKm: number; // in ₹
+  availableNow: boolean;
+  rating: number;
+  totalTripsCompleted: number;
+  verifiedDriver: boolean;
+  avatar: string;
+}
+
+export interface TransportBookingRequest {
+  id: string;
+  transporterId: string;
+  transporterName: string;
+  vehicleType: VehicleCategory;
+  pickupLocation: string;
+  destinationLocation: string;
+  cargoDetails: string;
+  weightQuintals: number;
+  pickupTime: string;
+  estimatedKm: number;
+  estimatedFareRupees: number;
+  farmerName: string;
+  farmerPhone: string;
+  status: 'Requested' | 'Accepted' | 'Arrived for Loading' | 'In Transit' | 'Delivered';
+  createdAt: string;
+}
+

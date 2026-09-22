@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+:root {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-serif: 'Fraunces', 'DM Serif Display', Georgia, serif;
+  --font-editorial: 'DM Serif Display', 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', Menlo, monospace;
+  --font-script: 'Caveat', cursive;
+}
+
+.font-sans {
+  font-family: var(--font-sans) !important;
+}
+
+.font-display {
+  font-family: var(--font-display) !important;
+  letter-spacing: -0.01em;
+}
+
+.font-serif-harvest {
+  font-family: var(--font-serif) !important;
+  font-feature-settings: "liga" 1, "dlig" 1;
+}
+
+.font-editorial {
+  font-family: var(--font-editorial) !important;
+}
+
+.font-mono {
+  font-family: var(--font-mono) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.font-script {
+  font-family: var(--font-script) !important;
+}
+
+.attractive-headline {
+  font-family: 'Fraunces', 'DM Serif Display', Georgia, serif !important;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+/* Typographic Personality Themes */
+body.font-theme-organic {
+  --active-heading-font: var(--font-serif);
+}
+body.font-theme-organic .theme-heading {
+  font-family: var(--font-serif);
+}
+body.font-theme-organic .theme-accent {
+  font-family: var(--font-script);
+}
+
+body.font-theme-modern {
+  --active-heading-font: var(--font-display);
+}
+body.font-theme-modern .theme-heading {
+  font-family: var(--font-display);
+}
+body.font-theme-modern .theme-accent {
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+}
+
+body.font-theme-editorial {
+  --active-heading-font: var(--font-editorial);
+}
+body.font-theme-editorial .theme-heading {
+  font-family: var(--font-editorial);
+}
+body.font-theme-editorial .theme-accent {
+  font-family: var(--font-editorial);
+  font-style: italic;
+}
+
+body.font-theme-kisan {
+  --active-heading-font: var(--font-serif);
+}
+body.font-theme-kisan .theme-heading {
+  font-family: var(--font-serif);
+}
+body.font-theme-kisan .theme-accent {
+  font-family: var(--font-script);
+  font-weight: 700;
+}
+
+/* 3D Web Depth & Perspective Engine */
+.perspective-800 {
+  perspective: 800px;
+}
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.translate-z-10 {
+  transform: translateZ(10px);
+}
+
+.translate-z-20 {
+  transform: translateZ(20px);
+}
+
+.translate-z-30 {
+  transform: translateZ(30px);
+}
+
+.translate-z-40 {
+  transform: translateZ(40px);
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* 3D Elevated Card with Dynamic Lighting */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.card-3d:hover {
+  transform: translateY(-6px) rotateX(2deg) rotateY(-1deg);
+  box-shadow: 0 25px 50px -12px rgba(6, 78, 59, 0.18), 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+}
+
+/* 3D Layer Elevation */
+.layer-3d-base {
+  transform: translateZ(0px);
+}
+
+.layer-3d-float {
+  transform: translateZ(24px);
+  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.12));
+}
+
+.layer-3d-pop {
+  transform: translateZ(40px);
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.18));
+}
+
+/* 3D Subtle Floating Animation */
+@keyframes float3d {
+  0%, 100% {
+    transform: translateY(0px) rotateZ(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateZ(0.5deg);
+  }
+}
+
+.animate-float-3d {
+  animation: float3d 5s ease-in-out infinite;
+}
+
+/* 3D Grid Ambient Background */
+.bg-grid-3d {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(16, 185, 129, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 185, 129, 0.06) 1px, transparent 1px);
+}
+
+/* Leaflet map styles and z-index fixes */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  font-family: inherit;
+}
+
+.custom-map-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.custom-map-pin:hover {
+  transform: scale(1.15);
+}
